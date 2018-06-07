@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { Carro } from '../../modelos/carro';
+import { CadastroUsuario } from '../../modelos/cadastro-usuario';
 
 @IonicPage()
 @Component({
@@ -7,5 +9,13 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'cadastro.html',
 })
 export class CadastroPage {
-  constructor(public navCtrl: NavController, public navParams: NavParams) { }
+  carro: Carro;
+  precoTotal: number;
+  cadastroUsuario: CadastroUsuario;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.carro = this.navParams.get('carroSelecionado');
+    this.precoTotal = this.navParams.get('precoTotal')
+    this.cadastroUsuario = new CadastroUsuario();
+  }
 }
