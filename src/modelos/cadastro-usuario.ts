@@ -1,6 +1,10 @@
+import { DateTime } from "ionic-angular";
+
 export class CadastroUsuario {
-    nome: string;
-    endereco: string;
-    email: string;
-    data: string = new Date().toISOString();
+    nomeCliente: string;
+    enderecoCliente: string;
+    emailCliente: string;
+    modeloCarro: string;
+    precoTotal: number;
+    data: string = DateTime.toString();
 }

@@ -10,32 +10,32 @@
   <h2>{{carro.nome}}</h2>
   <p>R${{precoTotal}}</p>
 
-  <form>
+  <form (ngSubmit)="agenda()" #formulario="ngForm">
 
     <ion-item>
       <ion-label stacked>Nome: </ion-label>
-      <ion-input name="nome"></ion-input>
+      <ion-input name="nome" [(ngModel)]="cadastroUsuario.nomeCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Endereco: </ion-label>
-      <ion-input name="endereco"></ion-input>
+      <ion-input name="endereco" [(ngModel)]="cadastroUsuario.enderecoCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Email: </ion-label>
-      <ion-input name="email"></ion-input>
+      <ion-input name="email" [(ngModel)]="cadastroUsuario.emailCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Data: </ion-label>
-      <ion-datetime [(ngModel)]="cadastroUsuario.data" name="data" displayFormat="DD/MMM/YY"></ion-datetime>
+      <ion-datetime name="data" displayFormat="DD/MMM/YY"></ion-datetime>
     </ion-item>
 
   </form>
 
   <ion-fab top right edge>
-    <button ion-fab>
+    <button ion-fab (click)="formulario.ngSubmit.emit()">
       <ion-icon name="send"></ion-icon>
     </button>
   </ion-fab>
