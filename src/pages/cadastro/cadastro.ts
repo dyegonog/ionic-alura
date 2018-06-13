@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, AlertController, Alert } from 'ion
 import { Carro } from '../../modelos/carro';
 import { CadastroUsuario } from '../../modelos/cadastro-usuario';
 import { AgendamentosServiceProvider } from '../../providers/agendamentos-service/agendamentos-service';
+import { HomePage } from '../home/home';
 
 @IonicPage()
 @Component({
@@ -26,27 +27,32 @@ export class CadastroPage {
   }
 
   agenda(): void {
+    let mensagem: string;
+
     this.cadastroUsuario.modeloCarro = this.carro.nome;
     this.cadastroUsuario.precoTotal = this.precoTotal;
-    this._agendamentoService.agenda(this.cadastroUsuario).subscribe(
-      sucesso => {
-        this.criaAlerta();
-        this.alerta.setSubTitle('Agendamento realizado !!');
-        this.alerta.present();
-      },
-      erro => {
-        this.criaAlerta();
-        this.alerta.setSubTitle('Falha no agendamento! Tente novamente mais tarde !!');
-        this.alerta.present();
-      }
-    );
+
+    this._agendamentoService.agenda(this.cadastroUsuario)
+      .finally(() => this.criaAlerta(mensagem))
+      .subscribe(
+        sucesso => {
+          mensagem = 'Agendamento realizado !';
+        },
+        erro => {
+          mensagem = 'Falha no agendamento! Tente novamente mais tarde !';
+        }
+      );
   }
 
-  criaAlerta(): void {
-    this.alerta = this._alertCtrl.create({
+  criaAlerta(mensagem: string): void {
+    this._alertCtrl.create({
       title: 'Aviso',
-      buttons: [{ text: 'ok' }]
-    });
+      subTitle: mensagem,
+      buttons: [{
+        text: 'ok',
+        handler: () => { this.navCtrl.setRoot(HomePage) }
+      }]
+    }).present();
   }
 
 }

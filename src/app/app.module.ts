@@ -10,6 +10,8 @@ import { HomePage } from '../pages/home/home';
 import { CarrosServiceProvider } from '../providers/carros-service/carros-service';
 import { AgendamentosServiceProvider } from '../providers/agendamentos-service/agendamentos-service';
 
+import 'rxjs/add/operator/finally';
+
 @NgModule({
   declarations: [
     MyApp,
