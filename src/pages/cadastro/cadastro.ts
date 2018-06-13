@@ -1,9 +1,11 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Alert } from 'ionic-angular';
 import { Carro } from '../../modelos/carro';
-import { CadastroUsuario } from '../../modelos/cadastro-usuario';
+import { Agendamento } from '../../modelos/agendamento';
 import { AgendamentosServiceProvider } from '../../providers/agendamentos-service/agendamentos-service';
 import { HomePage } from '../home/home';
+import { Storage } from '@ionic/storage';
+import { Observable } from 'rxjs/Observable';
 
 @IonicPage()
 @Component({
@@ -14,37 +16,52 @@ import { HomePage } from '../home/home';
 export class CadastroPage {
   carro: Carro;
   precoTotal: number;
-  cadastroUsuario: CadastroUsuario;
+  agendamento: Agendamento;
   alerta: Alert;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private _alertCtrl: AlertController,
-    private _agendamentoService: AgendamentosServiceProvider) {
+    private _agendamentoService: AgendamentosServiceProvider,
+    private _storage: Storage) {
     this.carro = this.navParams.get('carroSelecionado');
     this.precoTotal = this.navParams.get('precoTotal')
-    this.cadastroUsuario = new CadastroUsuario();
+    this.agendamento = new Agendamento();
 
   }
 
   agenda(): void {
     let mensagem: string;
 
-    this.cadastroUsuario.modeloCarro = this.carro.nome;
-    this.cadastroUsuario.precoTotal = this.precoTotal;
+    this.agendamento.modeloCarro = this.carro.nome;
+    this.agendamento.precoTotal = this.precoTotal;
 
-    this._agendamentoService.agenda(this.cadastroUsuario)
+    this._agendamentoService.agenda(this.agendamento)
+      .mergeMap((valor) => {
+        let observable = this.salva(this.agendamento);
+
+        if (valor instanceof Error) throw valor;
+
+        return observable;
+      })
       .finally(() => this.criaAlerta(mensagem))
       .subscribe(
         sucesso => {
           mensagem = 'Agendamento realizado !';
         },
-        erro => {
-          mensagem = 'Falha no agendamento! Tente novamente mais tarde !';
+        (err: Error) => {
+          mensagem = err.message;
         }
       );
   }
 
-  criaAlerta(mensagem: string): void {
+  salva(agendamento: Agendamento) {
+    let chave = `${agendamento.nomeCliente} ${agendamento.data.substr(0, 10)}`;
+    let promise = this._storage.set(chave, agendamento);
+
+    return Observable.fromPromise(promise);
+  }
+
+  private criaAlerta(mensagem: string): void {
     this._alertCtrl.create({
       title: 'Aviso',
       subTitle: mensagem,

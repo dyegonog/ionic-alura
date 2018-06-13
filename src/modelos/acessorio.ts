@@ -1,4 +1,4 @@
 export interface Acessorio {
-    nome: string;
-    preco: number;
+    nome: string,
+    preco: number,
 }
