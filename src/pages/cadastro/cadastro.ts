@@ -47,9 +47,7 @@ export class CadastroPage {
         sucesso => {
           mensagem = 'Agendamento realizado !';
         },
-        (err: Error) => {
-          mensagem = err.message;
-        }
+        (err: Error) => mensagem = err.message
       );
   }
 
@@ -70,5 +68,4 @@ export class CadastroPage {
       }]
     }).present();
   }
-
 }
