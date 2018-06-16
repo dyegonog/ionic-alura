@@ -26,7 +26,6 @@ export class CadastroPage {
     this.carro = this.navParams.get('carroSelecionado');
     this.precoTotal = this.navParams.get('precoTotal')
     this.agendamento = new Agendamento();
-
   }
 
   agenda(): void {
