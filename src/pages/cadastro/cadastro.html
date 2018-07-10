@@ -14,22 +14,22 @@
 
     <ion-item>
       <ion-label stacked>Nome: </ion-label>
-      <ion-input name="nome" [(ngModel)]="cadastroUsuario.nomeCliente"></ion-input>
+      <ion-input name="nome" [(ngModel)]="agendamento.nomeCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Endereco: </ion-label>
-      <ion-input name="endereco" [(ngModel)]="cadastroUsuario.enderecoCliente"></ion-input>
+      <ion-input name="endereco" [(ngModel)]="agendamento.enderecoCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Email: </ion-label>
-      <ion-input name="email" [(ngModel)]="cadastroUsuario.emailCliente"></ion-input>
+      <ion-input name="email" [(ngModel)]="agendamento.emailCliente"></ion-input>
     </ion-item>
 
     <ion-item>
       <ion-label stacked>Data: </ion-label>
-      <ion-datetime name="data" displayFormat="DD/MMM/YY"></ion-datetime>
+      <ion-datetime name="data" [(ngModel)]="agendamento.data"  displayFormat="DD/MM/YY"></ion-datetime>
     </ion-item>
 
   </form>
